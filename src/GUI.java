@@ -80,6 +80,9 @@ public class GUI extends Application {
         outputScroll.setMaxHeight(HEIGHT / 2);
         outputScroll.setPrefWidth(WIDTH / 4);
 
+        //Define Syntax Error Text
+        Text txtSyntaxError = new Text();
+
         // Define Run Button
         Button btnRun = new Button();
         btnRun.setText("Run");
@@ -90,6 +93,11 @@ public class GUI extends Application {
                 {
                     Interpreter interpreter = new Interpreter(codeEditor.getText(), txtOutput);
                     interpreter.execute();
+                }
+                catch (SyntaxErrorException synE)
+                {
+                    // TODO colour red
+                    txtSyntaxError.setText(synE.getMessage());
                 }
                 catch (InterpreterException e)
                 {
@@ -118,7 +126,7 @@ public class GUI extends Application {
         // Define right column layout
         VBox rightColumn = new VBox();
         rightColumn.setSpacing(10);
-        rightColumn.getChildren().addAll(btnRun, btnLoad, outputScroll);  // Add components to r.hand column
+        rightColumn.getChildren().addAll(btnRun, btnLoad, outputScroll, txtSyntaxError);  // Add components to r.hand column
 
         // Define horizontal layout
         HBox hbox = new HBox();

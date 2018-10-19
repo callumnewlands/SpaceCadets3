@@ -15,3 +15,11 @@ class EndOfLoopException extends InterpreterException
     EndOfLoopException(String errorMessage) { super(errorMessage); }
 
 }
+
+class SyntaxErrorException extends InterpreterException
+{
+    SyntaxErrorException() { super(); }
+
+    SyntaxErrorException(String errorMessage) { super(errorMessage); }
+
+}

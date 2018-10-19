@@ -21,7 +21,7 @@ class Interpreter
     public static final String COMMENT_REG_EX = "\\s*#.*";
     private static final String UNARY_OPERATOR_REG_EX = "\\s*(clear|incr|decr)\\s+(\\w+)\\s*;\\s*";
     private static final String BINARY_AFTER_OPERATOR_REG_EX = "\\s*(swap)\\s+(\\w+)\\s+(\\w+)\\s*;\\s*";
-    private static final String BINARY_MIDDLE_OPERATOR_REG_EX = "\\s*(\\w+)\\s+(\\+|-|/|\\*)\\s+(\\w+)\\s*;\\s*";
+    private static final String BINARY_MIDDLE_OPERATOR_REG_EX = "\\s*(\\w+)\\s+([+-/*])\\s+(\\w+)\\s*;\\s*";
     private static final String COPY_TO_REG_EX = "\\s*(copy)\\s+(\\w+)\\s+to\\s+(\\w+)\\s*;\\s*";
     public static final String KEYWORD_REG_EX = "\\b(" + String.join("|", RESERVED_IDENTIFIERS) + ")\\b";
     private static final String WHILE_REG_EX = "\\s*(while)\\s+(\\w+)\\s+not\\s+0\\s+do\\s*;\\s*";
@@ -35,7 +35,7 @@ class Interpreter
     {
         String[] lines = code.split("\\r?\\n");
         for (String line : lines)
-            _sourceCode.add(line);
+            _sourceCode.add(line.toLowerCase());
 
         this.txtOutput = txtOutput;
         this.txtOutput.setText("Output: ");
@@ -63,7 +63,7 @@ class Interpreter
             return;
 
         if (!isSyntacticallyCorrect(line))
-            throw new InterpreterException("Syntax Error in line " + (_linePtr + 1) + ": " + line);
+            throw new SyntaxErrorException("Syntax Error in line " + (_linePtr + 1) + ": " + line);
 
         Pattern variablePattern = Pattern.compile(UNARY_OPERATOR_REG_EX);
         Matcher variableMatcher = variablePattern.matcher(line);
@@ -151,7 +151,7 @@ class Interpreter
         }
 
         if (isReservedIdentifier(operator1))
-            throw new InterpreterException("Syntax Error in line " + (_linePtr + 1) + ": " + operator1 + " is a reserved keyword");
+            throw new SyntaxErrorException("Syntax Error in line " + (_linePtr + 1) + ": " + operator1 + " is a reserved keyword");
 
         switch (instruction)
         {
