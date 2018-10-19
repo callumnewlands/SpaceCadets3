@@ -1,0 +1,13 @@
+.keyword {
+    -fx-fill: blue;
+    -fx-font-weight: bold;
+}
+
+.comment {
+    -fx-fill: grey;
+}
+
+.semicolon {
+    -fx-fill: red;
+    -fx-font-weight: bold;
+}
