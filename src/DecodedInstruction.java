@@ -1,22 +1,22 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DecodedInstruction
+class DecodedInstruction
 {
 
     private String instruction = "";
-    public String getInstruction() { return !instruction.equals("") ? instruction : null; }
+    String getInstruction() { return !instruction.equals("") ? instruction : null; }
 
     private String operator1 = "";
-    public String getOperator1() { return !operator1.equals("") ? operator1 : null; }
+    String getOperator1() { return !operator1.equals("") ? operator1 : null; }
 
     private String operator2 = "";
-    public String getOperator2() { return !operator2.equals("") ? operator2 : null; }
+    String getOperator2() { return !operator2.equals("") ? operator2 : null; }
 
     private String destination = "";
-    public String getDestination(){ return !destination.equals("") ? destination : null; }
+    String getDestination(){ return !destination.equals("") ? destination : null; }
 
-    public DecodedInstruction(String line)
+    DecodedInstruction(String line)
     {
         Pattern variablePattern = Pattern.compile(Interpreter.UNARY_OPERATOR_REG_EX);
         Matcher variableMatcher = variablePattern.matcher(line);
