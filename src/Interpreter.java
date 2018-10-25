@@ -193,7 +193,7 @@ class Interpreter
 
     /**
      * Deletes a variable from the interpreter - means it's value is deleted, and it will not be output
-     * @param var1
+     * @param var1 The variable to delete
      */
     private void delete(String var1)
     {
