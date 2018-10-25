@@ -41,7 +41,7 @@ public class GUI extends Application {
 
 
 
-    public void show() { launch(); } // launch GUI
+    void show() { launch(); } // launch GUI
 
     @Override
     public void start(Stage primaryStage) {
@@ -50,8 +50,8 @@ public class GUI extends Application {
 
         // Define Code Area
         CodeArea codeEditor = new CodeArea();
-        codeEditor.setMaxWidth(WIDTH / 2);
-        codeEditor.setMinWidth(WIDTH / 2);
+        codeEditor.setMaxWidth(WIDTH / 2.0);
+        codeEditor.setMinWidth(WIDTH / 2.0);
         codeEditor.setMinHeight(HEIGHT);
         codeEditor.setMaxHeight(HEIGHT);
         codeEditor.setParagraphGraphicFactory(LineNumberFactory.get(codeEditor));  // Add line numbers
@@ -77,9 +77,9 @@ public class GUI extends Application {
 
         ScrollPane outputScroll = new ScrollPane();
         outputScroll.setContent(txtOutput);
-        outputScroll.setMinHeight(HEIGHT / 2);
-        outputScroll.setMaxHeight(HEIGHT / 2);
-        outputScroll.setPrefWidth(WIDTH / 4);
+        outputScroll.setMinHeight(HEIGHT / 2.0);
+        outputScroll.setMaxHeight(HEIGHT / 2.0);
+        outputScroll.setPrefWidth(WIDTH / 4.0);
 
         //Define Syntax Error Text
         Text txtSyntaxError = new Text();
