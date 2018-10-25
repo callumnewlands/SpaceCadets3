@@ -36,7 +36,8 @@ public class GUI extends Application {
     private static final Pattern HIGHLIGHTING_PATTERN = Pattern.compile(
             "(?<KEYWORD>" + Interpreter.KEYWORD_REG_EX + ")"
                     + "|(?<SEMICOLON>" + Interpreter.SEMICOLON_REG_EX + ")"
-                    + "|(?<COMMENT>" + Interpreter.COMMENT_REG_EX + ")");
+                    + "|(?<COMMENT>" + Interpreter.COMMENT_REG_EX + ")"
+                    + "|(?<VARIABLE>" + Interpreter.VARIABLE_REG_EX + ")");
 
 
 
@@ -72,7 +73,7 @@ public class GUI extends Application {
 
         // Define Output Text
         Text txtOutput = new Text();
-        txtOutput.setText("OUTPUT:");
+        txtOutput.setText("OUTPUT:\n");
 
         ScrollPane outputScroll = new ScrollPane();
         outputScroll.setContent(txtOutput);
@@ -88,7 +89,7 @@ public class GUI extends Application {
         btnRun.setText("Run");
         btnRun.setOnAction(new EventHandler<>() {
             @Override public void handle(ActionEvent event) {
-
+                txtSyntaxError.setText("");
                 try
                 {
                     Interpreter interpreter = new Interpreter(codeEditor.getText(), txtOutput);
@@ -181,6 +182,7 @@ public class GUI extends Application {
                     matcher.group("KEYWORD") != null ? "keyword" :
                             matcher.group("SEMICOLON") != null ? "semicolon" :
                                     matcher.group("COMMENT") != null ? "comment" :
+                                            matcher.group("VARIABLE") != null ? "variable" :
                                             null; // Will only be null if
             assert styleClass != null;
 

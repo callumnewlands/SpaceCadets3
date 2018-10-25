@@ -11,3 +11,8 @@
     -fx-fill: red;
     -fx-font-weight: bold;
 }
+
+.variable {
+    -fx-fill: green;
+    -fx-font-weight: bold;
+}

@@ -1,6 +1,8 @@
 ## Multiplies 2 numbers ##
 ## Stores the result in Z ##
 
+## Traditional Code
+
 # X = 2
 clear X;
 incr X;
@@ -26,3 +28,14 @@ while X not 0 do;
    end;
    decr X;
 end;
+
+## My Code
+
+x = 2;
+y = 3;
+z = x * y;
+copy z to result;
+del w;
+del x;
+del y;
+del z;
