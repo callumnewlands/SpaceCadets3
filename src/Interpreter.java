@@ -1,15 +1,10 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.scene.text.Text;
 
 // TODO: javadoc
-// TODO: fix StackOverflowExceptio
-// TODO: catch EmptyStackException for whilePtrStack, meaning there is an "end" but not a "while"
 // optional TODO: add subroutines
 
 class Interpreter
@@ -133,7 +128,14 @@ class Interpreter
                 _linePtr = whileLoopPtrs.pop().endLine;
                 break;
             case "end":
-                whileLoopPtrs.peek().endLine = _linePtr;
+                try
+                {
+                    whileLoopPtrs.peek().endLine = _linePtr;
+                }
+                catch (EmptyStackException e)
+                {
+                    throw new SyntaxErrorException("No matching while for line " + (_linePtr + 1) + ": " + line);
+                }
                 _linePtr = whileLoopPtrs.peek().startLine;
                 throw new EndOfLoopException();
             default:
