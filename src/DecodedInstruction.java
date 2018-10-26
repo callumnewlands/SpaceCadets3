@@ -1,6 +1,9 @@
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// TODO: document
+// TODO: create subclasses to remove the ambiguty of operator1/2/dest
+
 class DecodedInstruction
 {
 
@@ -53,7 +56,7 @@ class DecodedInstruction
                 catch (IllegalStateException e3)
                 {
 
-                    Pattern binaryPattern = Pattern.compile(Interpreter.BINARY_AFTER_OPERATOR_REG_EX);
+                    Pattern binaryPattern = Pattern.compile(Interpreter.SWAP_REG_EX);
                     Matcher binaryMatcher = binaryPattern.matcher(line);
                     binaryMatcher.find();
 
@@ -65,7 +68,7 @@ class DecodedInstruction
                     }
                     catch (IllegalStateException e4)
                     {
-                        Matcher binaryMiddleMatcher = Pattern.compile(Interpreter.BINARY_MIDDLE_OPERATOR_REG_EX).matcher(line);
+                        Matcher binaryMiddleMatcher = Pattern.compile(Interpreter.BINARY_OPERATOR_REG_EX).matcher(line);
                         binaryMiddleMatcher.find();
                         try
                         {

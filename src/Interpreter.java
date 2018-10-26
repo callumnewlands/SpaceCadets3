@@ -4,8 +4,9 @@ import java.util.regex.Pattern;
 
 import javafx.scene.text.Text;
 
-// TODO: javadoc
 // optional TODO: add subroutines
+// TODO: what happens if you use a goto to go into a while loop or from inside a while loop...??
+// TODO: readme.txt
 
 class Interpreter
 {
@@ -21,9 +22,9 @@ class Interpreter
     static final String COMMENT_REG_EX = "\\s*#.*";
     static final String ASSIGNMENT_REG_EX = "\\s*" + VARIABLE_REG_EX + "\\s+(=)\\s+([0-9]+)" + SEMICOLON_REG_EX;
     static final String UNARY_OPERATOR_REG_EX = "\\s*(clear|incr|decr|del)\\s+" + VARIABLE_REG_EX + SEMICOLON_REG_EX;
-    static final String BINARY_AFTER_OPERATOR_REG_EX = "\\s*(swap)\\s+" + VARIABLE_REG_EX + "\\s+and\\s+"
+    static final String SWAP_REG_EX = "\\s*(swap)\\s+" + VARIABLE_REG_EX + "\\s+and\\s+"
                                                         + VARIABLE_REG_EX + SEMICOLON_REG_EX;
-    static final String BINARY_MIDDLE_OPERATOR_REG_EX = "\\s*" + VARIABLE_REG_EX + "\\s+=\\s+"
+    static final String BINARY_OPERATOR_REG_EX = "\\s*" + VARIABLE_REG_EX + "\\s+=\\s+"
                                                         + VARIABLE_REG_EX + "\\s+([+-/*])\\s+"
                                                         + VARIABLE_REG_EX + SEMICOLON_REG_EX;
     static final String COPY_TO_REG_EX = "\\s*(copy)\\s+" + VARIABLE_REG_EX + "\\s+to\\s+"
@@ -88,45 +89,19 @@ class Interpreter
 
         switch (instruction.getInstruction())
         {
-            case "clear":
-                clear(instruction.getOperator1());
-                break;
-            case "incr":
-                increment(instruction.getOperator1());
-                break;
-            case "decr":
-                decrement(instruction.getOperator1());
-                break;
-            case "swap":
-                swap(instruction.getOperator1(), instruction.getOperator2());
-                break;
-            case "copy":
-                copyTo(instruction.getOperator1(), instruction.getOperator2());
-                break;
-            case "+":
-                add(instruction.getOperator1(), instruction.getOperator2(), instruction.getDestination());
-                break;
-            case "-":
-                subtract(instruction.getOperator1(), instruction.getOperator2(), instruction.getDestination());
-                break;
-            case "*":
-                multiply(instruction.getOperator1(), instruction.getOperator2(), instruction.getDestination());
-                break;
-            case "/":
-                divide(instruction.getOperator1(), instruction.getOperator2(), instruction.getDestination());
-                break;
-            case "=":
-                assign(instruction.getOperator1(), instruction.getDestination());
-                break;
-            case "del":
-                delete(instruction.getOperator1());
-                break;
-            case "ifp":
-                ifPositive(instruction.getOperator1(), instruction.getDestination());
-                break;
-            case "ifz":
-                ifZero(instruction.getOperator1(), instruction.getDestination());
-                break;
+            case "clear": clear(instruction.getOperator1()); break;
+            case "incr": increment(instruction.getOperator1()); break;
+            case "decr": decrement(instruction.getOperator1()); break;
+            case "del": delete(instruction.getOperator1()); break;
+            case "swap": swap(instruction.getOperator1(), instruction.getOperator2()); break;
+            case "copy": copyTo(instruction.getOperator1(), instruction.getOperator2()); break;
+            case "+": add(instruction.getOperator1(), instruction.getOperator2(), instruction.getDestination()); break;
+            case "-": subtract(instruction.getOperator1(), instruction.getOperator2(), instruction.getDestination()); break;
+            case "*": multiply(instruction.getOperator1(), instruction.getOperator2(), instruction.getDestination()); break;
+            case "/": divide(instruction.getOperator1(), instruction.getOperator2(), instruction.getDestination()); break;
+            case "=": assign(instruction.getOperator1(), instruction.getDestination()); break;
+            case "ifp": ifPositive(instruction.getOperator1(), instruction.getDestination()); break;
+            case "ifz": ifZero(instruction.getOperator1(), instruction.getDestination()); break;
             case "while":
                 whileLoopPtrs.push(new WhileLoopPtr(_linePtr));
                 while (_variables.get(instruction.getOperator1()) > 0)
@@ -147,8 +122,7 @@ class Interpreter
                 }
                 _linePtr = whileLoopPtrs.peek().startLine;
                 throw new EndOfLoopException();
-            default:
-                throw new InterpreterException("Invalid command in line " + (_linePtr + 1) + ": " + line);
+            default: throw new InterpreterException("Invalid command in line " + (_linePtr + 1) + ": " + line);
         }
     }
 
@@ -364,10 +338,10 @@ class Interpreter
     private boolean isSyntacticallyCorrect(String line)
     {
         Matcher unaryMatcher = Pattern.compile(UNARY_OPERATOR_REG_EX).matcher(line);
-        Matcher binaryAfterMatcher = Pattern.compile(BINARY_AFTER_OPERATOR_REG_EX).matcher(line);
+        Matcher binaryAfterMatcher = Pattern.compile(SWAP_REG_EX).matcher(line);
         Matcher whileMatcher = Pattern.compile(WHILE_REG_EX).matcher(line);
         Matcher endMatcher = Pattern.compile(END_REG_EX).matcher(line);
-        Matcher binaryMiddleMatcher = Pattern.compile(BINARY_MIDDLE_OPERATOR_REG_EX).matcher(line);
+        Matcher binaryMiddleMatcher = Pattern.compile(BINARY_OPERATOR_REG_EX).matcher(line);
         Matcher copyToMatcher = Pattern.compile(COPY_TO_REG_EX).matcher(line);
         Matcher assignmentMatcher = Pattern.compile(ASSIGNMENT_REG_EX).matcher(line);
         Matcher ifMatcher = Pattern.compile(IF_REG_EX).matcher(line);
